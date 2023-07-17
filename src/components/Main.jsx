@@ -1,20 +1,25 @@
+import { useState } from 'react';
+
 export default function Main() {
+  const [state, setstate] = useState('');
+  const [error, seterror] = useState('');
+  const [support, setsupport] = useState('');
+  // const [state, setstate] = useState('');
   function getLocation() {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
-          console.log('Latitude:', latitude);
-          console.log('Longitude:', longitude);
+          setstate(longitude);
           // You can perform further actions with the latitude and longitude values
         },
         (error) => {
-          console.error('Error getting location:', error.message);
+          seterror(error.message);
           // Handle any errors that occurred while retrieving the location
         }
       );
     } else {
-      console.error('Geolocation is not supported by this browser.');
+      setsupport('Geolocation is not supported by this browser.');
       // Handle the case where geolocation is not supported
     }
   }
@@ -28,7 +33,7 @@ export default function Main() {
           <body class="h-full">
           ```
         */}
-      <div className='flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
+      <div className='flex min-h-full  flex-1 flex-col justify-center px-6 py-12 lg:px-8'>
         <div className='sm:mx-auto sm:w-full sm:max-w-sm'>
           <img
             className='mx-auto h-10 w-auto'
@@ -39,6 +44,15 @@ export default function Main() {
             Sign in to your account
           </h2>
         </div>
+        <h1 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
+          {state}
+        </h1>
+        <h1 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
+          {error}
+        </h1>
+        <h1 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
+          {support}
+        </h1>
 
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
           {/* <form className='space-y-6' action='#' method='POST'> */}
