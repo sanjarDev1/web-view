@@ -4,6 +4,7 @@ export default function Main() {
   const [state, setstate] = useState('');
   const [error, seterror] = useState('');
   const [support, setsupport] = useState('');
+  const [data, setData] = useState('');
   // const [state, setstate] = useState('');
   function getLocation() {
     if (navigator.geolocation) {
@@ -11,17 +12,40 @@ export default function Main() {
         (position) => {
           const { latitude, longitude } = position.coords;
           setstate(longitude);
+          console.log(latitude);
           // You can perform further actions with the latitude and longitude values
         },
         (error) => {
           seterror(error.message);
+          console.log(error);
+
           // Handle any errors that occurred while retrieving the location
         }
       );
     } else {
       setsupport('Geolocation is not supported by this browser.');
+      console.log('error');
+
       // Handle the case where geolocation is not supported
     }
+  }
+
+  function receiveDataFromApp(data) {
+    // Handle the received data here
+    setData(data);
+
+    // Perform any necessary actions based on the received data
+  }
+
+  // Call the function on page load
+  window.onload = function () {
+    receiveDataFromApp('Hello from JavaScript!');
+  };
+
+  // Trigger the function on button click
+  function triggerDataReceived() {
+    var data = 'Button clicked!';
+    receiveDataFromApp(data);
   }
   return (
     <>
@@ -52,6 +76,9 @@ export default function Main() {
         </h1>
         <h1 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
           {support}
+        </h1>
+        <h1 className='mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900'>
+          {data}
         </h1>
 
         <div className='mt-10 sm:mx-auto sm:w-full sm:max-w-sm'>
@@ -106,7 +133,9 @@ export default function Main() {
 
           <div>
             <button
-              onClick={getLocation}
+              onClick={() => {
+                getLocation(), triggerDataReceived();
+              }}
               className='flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600'
             >
               Sign in
